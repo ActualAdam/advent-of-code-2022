@@ -13,7 +13,6 @@ plugins {
 
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
-    id("io.kotest") version "0.3.9"
 }
 
 repositories {
@@ -28,7 +27,17 @@ dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation("com.google.guava:guava:31.1-jre")
 
-    val kotestVersion = "5.5.4"
-    testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
-    testImplementation("io.kotest:kotest-framework-engine-jvm:$kotestVersion")
+}
+
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter("5.9.1")
+        }
+        dependencies {
+            val kotestVersion = "5.5.4"
+            implementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
+            implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+        }
+    }
 }
