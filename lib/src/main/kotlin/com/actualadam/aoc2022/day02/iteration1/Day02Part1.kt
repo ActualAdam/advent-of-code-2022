@@ -1,10 +1,10 @@
-package com.actualadam.aoc2022.day02
+package com.actualadam.aoc2022.day02.iteration1
 
-import com.actualadam.aoc2022.day02.Day02Part1.Shape.*
+import com.actualadam.aoc2022.day02.iteration1.Day02Part1.Shape.*
 
 object Day02Part1 {
     data class Guide(
-        val rounds: List<Round> ,
+        val rounds: List<Round>,
     ){
         val yourTotalScore = rounds.sumOf { it.yourScore() }
 

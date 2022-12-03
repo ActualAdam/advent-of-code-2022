@@ -1,8 +1,7 @@
-package com.actualadam.aoc2022.day02
+package com.actualadam.aoc2022.day02.iteration1
 
 import com.actualadam.aoc2022.TestUtil
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.doubles.exactly
 import io.kotest.matchers.shouldBe
 
 class Day02Test : StringSpec({
