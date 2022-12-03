@@ -1,6 +1,6 @@
 package com.actualadam.aoc2022.day01
 
-object Day01 {
+object Day01Iteration1 {
     data class Snack(
         val calories: Int
     ) {
@@ -25,7 +25,7 @@ object Day01 {
 
     fun parse(input:String): List<Stash> = input
         .split("\n\n")
-        .map { Stash.parse(it)}
+        .map { Stash.parse(it) }
 
     fun getFattestStashes(count: Int, stashes:List<Stash>): List<Stash> =
         stashes
