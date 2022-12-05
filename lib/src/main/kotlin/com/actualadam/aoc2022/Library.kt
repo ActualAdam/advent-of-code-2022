@@ -3,8 +3,33 @@
  */
 package com.actualadam.aoc2022
 
+/**
+ * splits the list into sublists based on the given predicate. Items in the list that satisfy the predicate
+ * serve as delimiters for the resulting list of lists.
+ */
+fun <T> List<T>.splitOn(predicate: (T) -> Boolean): List<List<T>> {
+    // determine the indices of this list that will be the slice points
+    // the first index, the last index, and the indices before and after the index of any value that satisfies the predicate
+    val slicePoints = flatMapIndexed { index: Int, item: T ->
+        when {
+            index == 0 || index == lastIndex -> listOf(index)
+            predicate(item) -> listOf(index - 1, index + 1)// grouped funny, but we just flatten at the end anyway
+            else -> emptyList()
+        }
+    }
+    // now we have a flat list of index ranges for the sublists we need (from, to, from, to, from, to...)
+    return slicePoints.chunked(2) { (from, to) ->
+        slice(from..to)
+    }
+}
+
+operator fun String.component1() = this[0]
+operator fun String.component2() = this[1]
+operator fun String.component3() = this[2]
+
 class Library {
     fun someLibraryMethod(): Boolean {
         return true
     }
+
 }
