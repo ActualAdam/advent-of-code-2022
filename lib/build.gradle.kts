@@ -35,9 +35,14 @@ testing {
             useJUnitJupiter("5.9.1")
         }
         dependencies {
-            val kotestVersion = "5.5.4"
-            implementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
-            implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+            fun kotest(artifact: String): Dependency? {
+                val version = "5.5.4"
+                return implementation("io.kotest:$artifact:$version")
+            }
+            kotest("kotest-assertions-core-jvm")
+            kotest("kotest-runner-junit5")
+            kotest("kotest-framework-datatest")
         }
+
     }
 }
