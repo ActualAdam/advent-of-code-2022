@@ -1,5 +1,8 @@
 package com.actualadam.aoc2022.day02.iteration3
 
+import com.actualadam.aoc2022.component1
+import com.actualadam.aoc2022.component2
+import com.actualadam.aoc2022.component3
 import com.actualadam.aoc2022.day02.iteration3.Day02Iteration3.Outcome.*
 import com.actualadam.aoc2022.day02.iteration3.Day02Iteration3.Shape.*
 
@@ -9,6 +12,12 @@ object Day02Iteration3 {
         Paper(2),
         Scissors(3),
         ;
+        fun winAgainst(): Shape =
+            when (this) {
+                Rock -> Paper
+                Paper -> Scissors
+                Scissors -> Rock
+            }
     }
 
     enum class Outcome(val score: Int) {
@@ -17,13 +26,6 @@ object Day02Iteration3 {
         Win(6),
         ;
     }
-
-    fun winAgainst(shape: Shape): Shape =
-        when (shape) {
-            Rock -> Paper
-            Paper -> Scissors
-            Scissors -> Rock
-        }
 
     fun loseAgainst(shape: Shape): Shape =
         when (shape) {
@@ -52,11 +54,6 @@ object Day02Iteration3 {
             else -> throw IllegalArgumentException("unknown input: $theirs")
         }
 
-
-    // allows destructuring like `val (yours, _, theirs) = "A Y"`
-    private operator fun String.component1() = this[0]
-    private operator fun String.component2() = this[1]
-    private operator fun String.component3() = this[2]
 
     fun part1(lines: List<String>): Int {
         fun parseYours(yours: Char): Shape =
@@ -89,7 +86,7 @@ object Day02Iteration3 {
             val theirs = parseTheirs(theirCode)
             val outcome = parseOutcome(outcomeCode)
             val yours = when (outcome) {
-                Win -> winAgainst(theirs)
+                Win -> theirs.winAgainst()
                 Lose -> loseAgainst(theirs)
                 Draw -> theirs
             }
