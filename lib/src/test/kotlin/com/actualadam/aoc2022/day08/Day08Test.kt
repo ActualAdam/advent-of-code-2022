@@ -1,5 +1,6 @@
-package com.actualadam.aoc2022
+package com.actualadam.aoc2022.day08
 
+import com.actualadam.aoc2022.TestUtil
 import com.actualadam.aoc2022.day08.Day08.part1
 import com.actualadam.aoc2022.day08.Day08.part2
 import io.kotest.core.spec.style.FreeSpec
