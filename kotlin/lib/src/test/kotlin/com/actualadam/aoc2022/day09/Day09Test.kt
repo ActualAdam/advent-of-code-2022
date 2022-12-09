@@ -20,10 +20,10 @@ class Day09Test : FreeSpec({
         }
         "part 2" - {
             "example input" {
-                part2(exampleInput) shouldBe 36
+                part2(exampleInput) shouldBe 1
             }
             "puzzle input" {
-                part2(puzzleInput) shouldBe 0
+                part2(puzzleInput) shouldBe 2514
             }
         }
     }

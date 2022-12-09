@@ -26,7 +26,7 @@ class Day07Test : FreeSpec({
                 part2(exampleInput) shouldBe 24933642
             }
             "puzzle input" {
-                part2(puzzleInput) shouldBe 0
+                part2(puzzleInput) shouldBe 578710
             }
         }
     }

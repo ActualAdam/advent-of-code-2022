@@ -25,7 +25,7 @@ class Day05Test : FreeSpec({
             }
 
             "Puzzle Input" {
-                Day05.part2(puzzleInput) shouldBe "MCD"
+                Day05.part2(puzzleInput) shouldBe "LVMRWSSPZ"
             }
         }
 
