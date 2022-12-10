@@ -21,11 +21,11 @@ class Day10Test : FreeSpec({
         }
         "part 2" - {
             "example" {
-                part2(exampleInput) shouldBe 0
+                part2(exampleInput) shouldBe ""
             }
 
             "puzzle" {
-                part2(puzzleInput) shouldBe 0
+                part2(puzzleInput) shouldBe ""
             }
         }
     }
