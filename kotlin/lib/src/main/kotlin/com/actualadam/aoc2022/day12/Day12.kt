@@ -7,23 +7,21 @@ object Day12 {
     )
 
     data class Grid(val data: List<List<Char>>) {
-        val adjacencyList: Map<Position, List<Position?>>
-        init {
+        fun getAdjacent(position: Position): List<Position> {
             val maxY = data.size - 1
             val maxX = data.first().size - 1
-            adjacencyList = data.mapIndexed { y, row ->
-                List(row.size) { x ->
-                    Position(x, y) to listOf(
-                        if (x != 0) Position(x - 1, y) else null,
-                        if (x != maxX) Position(x + 1,y) else null,
-                        if (y != 0) Position(x, y - 1) else null,
-                        if (y != maxY) Position(x, y + 1) else null,
-                    ).filterNotNull() as List<Position>
-                }
-            }.flatten().toMap()
+            val (x, y) = position
+            return listOfNotNull(
+                if (x != 0) Position(x - 1, y) else null,
+                if (x != maxX) Position(x + 1, y) else null,
+                if (y != 0) Position(x, y - 1) else null,
+                if (y != maxY) Position(x, y + 1) else null,
+            )
         }
 
-        fun getHeight(pos: Position): Char = data[pos.y][pos.x]
+        fun getHeight(pos: Position): Char = data[pos.y][pos.x].let {
+            if (it == 'S') (Char('z'.code + 1)) else it
+        }
 
         fun findStart(): Position {
             data.forEachIndexed {y, row ->
@@ -48,23 +46,28 @@ object Day12 {
         val start = grid.findStart()
         val queue = mutableListOf<Position>()
         queue.add(start)
+        visited.add(start)
         while (queue.any()) {
             val currentNode = queue.removeFirst()
-            if (visited.contains(currentNode)) continue
-            visited.add(currentNode)
             val currentHeight = grid.getHeight(currentNode)
-            if (currentHeight == 'E') break
+//            if (currentHeight == 'E') break
 
-            grid.adjacencyList[currentNode]!!.forEach {
-                val nextHeight = grid.getHeight(it!!)
-                if (currentHeight == 'S' || nextHeight <= currentHeight + 1) {
-                    queue.add(it!!)
+            val adjacent = grid.getAdjacent(currentNode)
+            if (adjacent.any {
+                grid.getHeight(it) == 'E'
+            }) break
+            adjacent.forEach {
+                val nextHeight = grid.getHeight(it)
+                if (nextHeight <= currentHeight + 1 && !visited.contains(it)) {
+                    queue.add(it)
+                    visited.add(it)
                 }
             }
         }
 
         return visited.count()
     }
+
 
     fun part2(lines: List<String>): Int {
         return 0

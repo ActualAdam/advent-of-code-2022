@@ -8,11 +8,12 @@
  */
 
 plugins {
-    // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.7.10"
-
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
+
+    val kotlinVersion = "1.7.21"
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.serialization") version kotlinVersion
 }
 
 repositories {
@@ -26,6 +27,7 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation("com.google.guava:guava:31.1-jre")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
 }
 
