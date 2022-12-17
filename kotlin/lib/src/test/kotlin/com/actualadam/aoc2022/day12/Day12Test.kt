@@ -15,17 +15,17 @@ class Day12Test : FreeSpec({
                 part1(exampleInput) shouldBe 31
             }
             "puzzle" {
-                part1(puzzleInput) shouldBe 0
+                part1(puzzleInput) shouldBe 490
             }
 
         }
 
         "part 2" - {
             "example" {
-                part2(exampleInput) shouldBe 0
+                part2(exampleInput) shouldBe 29
             }
             "puzzle" {
-                part2(puzzleInput) shouldBe 0
+                part2(puzzleInput) shouldBe 488
             }
         }
     }

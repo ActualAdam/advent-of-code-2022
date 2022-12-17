@@ -1,6 +1,8 @@
 package com.actualadam.aoc2022.day12
 
 object Day12 {
+    const val ARTIFICIAL_START_CHAR = 'a'
+    const val ARTIFICIAL_END_CHAR = '{'
     data class Position(
         val x: Int,
         val y: Int,
@@ -19,19 +21,25 @@ object Day12 {
             )
         }
 
+
         fun getHeight(pos: Position): Char = data[pos.y][pos.x].let {
-            if (it == 'S') (Char('z'.code + 1)) else it
+            when(it) {
+                'S' -> ARTIFICIAL_START_CHAR
+                'E' -> ARTIFICIAL_END_CHAR
+                else -> it
+            }
         }
 
-        fun findStart(): Position {
+        fun findStart(height: Char): List<PathNode> {
+            val startNodes = mutableListOf<PathNode>()
             data.forEachIndexed {y, row ->
                 row.forEachIndexed {x, char ->
-                    if (char =='S') {
-                        return Position(x, y)
+                    if (char == height) {
+                        startNodes.add(PathNode(Position(x, y), ARTIFICIAL_START_CHAR))
                     }
                 }
             }
-            throw IllegalStateException()
+            return startNodes.toList()
         }
 
         companion object {
@@ -39,37 +47,60 @@ object Day12 {
         }
     }
 
-    fun part1(lines: List<String>): Int {
+    data class PathNode(
+        val current: Position,
+        val value: Char,
+        val previous: Position? = null,
+    )
+
+    tailrec fun traceBackPath(visited: List<PathNode>, cur: PathNode, acc: List<Position> = listOf()): List<Position> {
+        return if (cur.previous == null) {
+            (acc).reversed()
+        } else {
+            traceBackPath(visited, visited.find {it.current == cur.previous}!!, acc + cur.current)
+        }
+    }
+
+    fun shortestPath(grid: Grid, startNode: PathNode = grid.findStart('S').single()): List<Position> {
         // watch me stagger bloodily through breadth-first search
-        val grid = Grid.from(lines)
-        val visited = mutableSetOf<Position>()
-        val start = grid.findStart()
-        val queue = mutableListOf<Position>()
-        queue.add(start)
-        visited.add(start)
+        val visited = mutableListOf<PathNode>()
+        val queue = mutableListOf<PathNode>()
+        queue.add(startNode)
+        visited.add(startNode)
         while (queue.any()) {
             val currentNode = queue.removeFirst()
-            val currentHeight = grid.getHeight(currentNode)
-//            if (currentHeight == 'E') break
+            val currentHeight = currentNode.value
+            if (currentHeight == ARTIFICIAL_END_CHAR)
+                return traceBackPath(visited, currentNode)
 
-            val adjacent = grid.getAdjacent(currentNode)
-            if (adjacent.any {
-                grid.getHeight(it) == 'E'
-            }) break
-            adjacent.forEach {
-                val nextHeight = grid.getHeight(it)
-                if (nextHeight <= currentHeight + 1 && !visited.contains(it)) {
-                    queue.add(it)
-                    visited.add(it)
+            val adjacent = grid.getAdjacent(currentNode.current)
+            adjacent.forEach {nextPosition ->
+                val nextHeight = grid.getHeight(nextPosition)
+                val nextNode = PathNode(nextPosition, nextHeight, currentNode.current)
+                if (nextHeight <= currentHeight + 1 && !visited.contains(nextNode)) {
+                    queue.add(nextNode)
+                    visited.add(nextNode)
                 }
             }
         }
+        throw IllegalStateException()
+    }
 
-        return visited.count()
+    fun part1(inputLines: List<String>): Int {
+        val grid = Grid.from(inputLines)
+        val shortestPath = shortestPath(grid)
+        return shortestPath.count()
     }
 
 
     fun part2(lines: List<String>): Int {
-        return 0
+        val grid = Grid.from(lines)
+        val startingPoints = grid.findStart('a')
+        val pathSteps = startingPoints.mapNotNull {
+            try {shortestPath(grid, it).count()}
+                catch(e: IllegalStateException){ null}
+        }.sorted()
+        return pathSteps.first()
+
     }
 }
