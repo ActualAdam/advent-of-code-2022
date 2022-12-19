@@ -18,7 +18,7 @@ object Day17 {
         // new rocs appear 3 unites up from the floor or the top of the tower (restingRocks)
         // this means we need to add height to the chamber before each rock appears if the chamber height is < 3 taller than the tower.
         // when a jet blows a rock and it's already touching the chamber side boundary, nothing happens
-        
+
     )
     fun part1(lines: String): Int{
         return 0
