@@ -1,4 +1,4 @@
-package day15
+package com.actualadam.aoc2022.day15
 
 import com.actualadam.aoc2022.TestUtil
 import com.actualadam.aoc2022.day15.Day15.part1
