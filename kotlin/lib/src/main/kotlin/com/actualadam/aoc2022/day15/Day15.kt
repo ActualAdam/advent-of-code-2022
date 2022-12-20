@@ -68,7 +68,57 @@ object Day15 {
         return netBlackouts.count()
     }
 
-    fun part2(lines: List<String>): Int {
-        return 0
+    fun part2(lines: List<String>, gridMax: Int): Long {
+        // If I'm readying right, the problem can be summarized as, which node in the grid is not covered by a sensor.
+        // Assume a 4Mx4M grid.
+        //
+        // This means if I can, using manhattan distances, get the radius of each sensor, union the coverage areas and subtract the set of nodes from the total grid nodes, the result should be a single node.
+        // defining the radius as the manhattan distance between the sensor and the closest beacon.
+        val deployments = lines.map { SensorDeployment.from(it) }
+        var rowWithGap: Pair<Int, Collection<IntRange>>? = null
+        for (row in 0 .. gridMax) {
+            val blackoutRanges = deployments.map { it.blackoutRangeOnRow(row) }
+            val truncated = blackoutRanges.map { it.coerceIn(0, gridMax) }
+            val merged = mergeIntRanges(truncated)
+            if(merged.size > 1) {
+                rowWithGap = Pair(row, merged)
+                break
+            }
+        }
+
+        val x = rowWithGap!!.second.first().last + 1
+        val y = rowWithGap.first
+
+
+        return x.toLong() * 4_000_000    + y
     }
+
+    fun mergeIntRanges(ranges: Collection<IntRange>): Collection<IntRange> {
+        val sorted = ranges.sortedWith(intRangeComparator).toMutableList()
+        val results = mutableListOf(sorted.removeFirst())
+        while(sorted.any())  {
+            val cur = sorted.removeFirst()
+            val lastResult = results.last()
+            if (cur == lastResult) continue
+            if (cur.first <= lastResult.last) {
+                if (lastResult.last >= cur.last) continue
+                val merged = IntRange(lastResult.first, cur.last)
+                results.removeLast()
+                results.add(merged)
+            } else {
+                results.add(cur)
+            }
+        }
+        return results
+    }
+
+    val intRangeComparator = Comparator<IntRange> { a, b ->
+        if (a.first == b.first) {
+            a.last.compareTo(b.last)
+        } else {
+            a.first.compareTo(b.first)
+        }
+    }
+
+    fun IntRange.coerceIn(min: Int, max: Int) = IntRange(this.first.coerceIn(min, max), this.last.coerceIn(min, max))
 }

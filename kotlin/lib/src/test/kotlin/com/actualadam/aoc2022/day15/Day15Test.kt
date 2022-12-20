@@ -20,10 +20,10 @@ class Day15Test : FreeSpec({
         }
         "part 2" - {
             "example" {
-                part2(exampleInput) shouldBe 0
+                part2(exampleInput, 20) shouldBe 56000011
             }
             "puzzle" {
-                part2(puzzleInput) shouldBe 0
+                part2(puzzleInput, 4_000_000) shouldBe 0
             }
         }
     }
