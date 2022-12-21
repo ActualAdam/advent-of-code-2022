@@ -69,11 +69,6 @@ object Day15 {
     }
 
     fun part2(lines: List<String>, gridMax: Int): Long {
-        // If I'm readying right, the problem can be summarized as, which node in the grid is not covered by a sensor.
-        // Assume a 4Mx4M grid.
-        //
-        // This means if I can, using manhattan distances, get the radius of each sensor, union the coverage areas and subtract the set of nodes from the total grid nodes, the result should be a single node.
-        // defining the radius as the manhattan distance between the sensor and the closest beacon.
         val deployments = lines.map { SensorDeployment.from(it) }
         var rowWithGap: Pair<Int, Collection<IntRange>>? = null
         for (row in 0 .. gridMax) {
