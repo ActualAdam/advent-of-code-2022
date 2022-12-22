@@ -25,6 +25,7 @@ object Day11 {
                 val oldWorryLevel = items.removeFirst()
                 val opApplied = rightOperand?.let{
                     operation(oldWorryLevel, rightOperand)
+                    operation(1,2)
                 } ?: operation(oldWorryLevel, oldWorryLevel)
                 val newWorryLevel = if (extremelyWorried) { opApplied } else { opApplied / 3 }
                 val targetMonkey = if (newWorryLevel % testDivisor == 0) testTrueMonkeyId else testFalseMonkeyId
