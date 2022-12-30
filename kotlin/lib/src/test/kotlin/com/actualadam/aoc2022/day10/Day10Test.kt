@@ -16,16 +16,16 @@ class Day10Test : FreeSpec({
             }
 
             "puzzle" {
-                part1(puzzleInput) shouldBe 0
+                part1(puzzleInput) shouldBe 13440
             }
         }
         "part 2" - {
-            "example" {
+            "example" - {
                 part2(exampleInput) shouldBe ""
             }
 
             "puzzle" {
-                part2(puzzleInput) shouldBe ""
+                part2(puzzleInput) shouldBe "PBZGRAZA"
             }
         }
     }

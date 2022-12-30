@@ -20,7 +20,7 @@ class Day11Test : FreeSpec({
         }
         "Part 2" - {
             "Example" {
-                part2(exampleInput) shouldBe 2713310158
+                part2(exampleInput) shouldBe 2713310158L
 //                part2(exampleInput) shouldBe 99 * 103
             }
             "Puzzle" {

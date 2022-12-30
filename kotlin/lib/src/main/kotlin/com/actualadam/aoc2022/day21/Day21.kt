@@ -41,6 +41,7 @@ object Day21 {
                 }
         }
     }
+
     data class MonkeyTree(
         val monkeys: List<Monkey>,
     ) {
